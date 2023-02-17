@@ -1,0 +1,33 @@
+export enum EvmChainHexEnum {
+  EthereumMainnet = '0x1',
+  GoerliTestnet = '0x5',
+  BinanceSmartChainMainnet = '0xaa36a7',
+  PolygonMainnet = '0x89',
+  FantomOperaMainnet = '0x13881',
+  BinanceSmartChainTestnet = '0x38',
+  EthereumClassicMainnet = '0x61',
+  AvalancheMainnet = '0xa86a',
+  AvalancheTestnetFuji = '0xa869',
+  EIP155Testnet = '0xfa',
+  EIP155Mainnet = '0x19',
+  OptimismMainnet = '0x152',
+  ArbitrumMainnet = '0x2a15c308d',
+  AvalancheTestnetCChain = '0xa4B1',
+}
+
+export enum EvmChainEnum {
+  EthereumMainnet = 'Ethereum Mainnet',
+  GoerliTestnet = 'Goerli Testnet',
+  BinanceSmartChainMainnet = 'Binance Smart Chain Mainnet',
+  PolygonMainnet = 'Polygon Mainnet',
+  FantomOperaMainnet = 'Fantom Opera Mainnet',
+  BinanceSmartChainTestnet = 'Binance Smart Chain Testnet',
+  EthereumClassicMainnet = 'Ethereum Classic Mainnet',
+  AvalancheMainnet = 'Avalanche Mainnet',
+  AvalancheTestnetFuji = 'Avalanche Testnet Fuji',
+  EIP155Testnet = 'EIP155 Testnet',
+  EIP155Mainnet = 'EIP155 Mainnet',
+  OptimismMainnet = 'Optimism Mainnet',
+  ArbitrumMainnet = 'Arbitrum Mainnet',
+  AvalancheTestnetCChain = 'Avalanche Testnet C-Chain',
+}

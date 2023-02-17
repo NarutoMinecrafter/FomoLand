@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import swagger from './common/swagger';
+import { HttpExceptionFilter } from './common/utils/filters/http-exception.filter';
 
 const envFound = config();
 
@@ -17,6 +18,7 @@ const envFound = config();
     const app = await NestFactory.create(AppModule);
     app.useGlobalPipes(new ValidationPipe());
     app.enableCors();
+    app.useGlobalFilters(new HttpExceptionFilter());
     swagger(app);
 
     await app.listen(PORT, () =>

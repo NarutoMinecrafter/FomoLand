@@ -1,34 +1,48 @@
 import { Injectable } from '@nestjs/common';
-import { FetchService } from '../../common/services/fetch.service';
+import { AppConfig } from 'src/common/config';
+import { FetchService, objectToQueryString } from 'src/common/utils';
 import {
   CollectionsDataDto,
   CollectionDto,
   MetadataDto,
-} from './collections.dto';
+  CollectionsQueryDto,
+  MetatataQueryDto,
+  basePaginationQuery,
+} from './dto';
 
 @Injectable()
 export class CollectionsService {
-  async getCollections(page = 1, limit = 10) {
-    const data: CollectionsDataDto = await FetchService.request(
-      `collections?page=${page}&limit=${limit}`,
+  private fetchService: FetchService;
+
+  constructor() {
+    this.fetchService = new FetchService(AppConfig.traitsniperApiUrl, {
+      'x-ts-api-key': AppConfig.traitsniperApiKey,
+      accept: 'application/json',
+    });
+  }
+
+  async getCollections(query: CollectionsQueryDto = basePaginationQuery) {
+    const data: CollectionsDataDto = await this.fetchService.request(
+      `collections?${objectToQueryString(query)}`,
     );
-
     console.log(data);
-
     return data;
   }
 
   async getCollection(contractAddress: string) {
-    const data: CollectionDto = await FetchService.request(
+    const data: CollectionDto = await this.fetchService.request(
       `collections/${contractAddress}`,
     );
     console.log(data);
     return data;
   }
 
-  async getMetadata(contractAddress: string, page = 1, limit = 200) {
-    const data: MetadataDto = await FetchService.request(
-      `collections/${contractAddress}/nfts?page=${page}&limit=${limit}`,
+  async getMetadata(
+    contractAddress: string,
+    query: MetatataQueryDto = basePaginationQuery,
+  ) {
+    const data: MetadataDto = await this.fetchService.request(
+      `collections/${contractAddress}/nfts?${objectToQueryString(query)}`,
     );
     console.log(data);
     return data;

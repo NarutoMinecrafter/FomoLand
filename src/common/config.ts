@@ -18,4 +18,8 @@ export class AppConfig {
   static get traitsniperApiKey(): string {
     return AppConfig.env.TRAITSNIPER_API_KEY;
   }
+
+  static get moralisApiKey(): string {
+    return AppConfig.env.MORALIS_API_KEY;
+  }
 }

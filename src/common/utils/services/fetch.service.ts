@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { AppConfig } from '../config';
 
 export enum HttpMethod {
   GET = 'GET',
@@ -13,20 +12,22 @@ export enum HttpMethod {
 
 @Injectable()
 export class FetchService {
-  static async request<T>(
+  private apiUrl: string;
+  private defaultHeaders: HeadersInit;
+
+  constructor(apiUrl: string, defaultHeaders: HeadersInit) {
+    this.apiUrl = apiUrl;
+    this.defaultHeaders = defaultHeaders;
+  }
+
+  async request<T>(
     endpoint: string,
     options: RequestInit = {
       method: HttpMethod.GET,
-      headers: {
-        'x-ts-api-key': AppConfig.traitsniperApiKey,
-        accept: 'application/json',
-      },
+      headers: this.defaultHeaders,
     },
   ): Promise<T> {
-    const response = await fetch(
-      `${AppConfig.traitsniperApiUrl}${endpoint}`,
-      options,
-    );
+    const response = await fetch(`${this.apiUrl}${endpoint}`, options);
     const data = await response.json();
     return data as T;
   }

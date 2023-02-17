@@ -1,16 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
-
-class BasePaginationDto {
-  @ApiProperty({ type: Number })
-  total_page: number;
-
-  @ApiProperty({ type: Number })
-  limit: number;
-
-  @ApiProperty({ type: Number })
-  page: number;
-}
+import { BasePaginationDto } from './common';
 
 export class CollectionDto {
   @ApiProperty({ type: Number })
@@ -25,7 +15,7 @@ export class CollectionDto {
   @ApiProperty()
   base_uri: string;
 
-  @ApiProperty({ type: String, required: false })
+  @ApiPropertyOptional({ type: String })
   @IsOptional()
   mempool_base_uri?: string;
 
@@ -122,7 +112,7 @@ export class CollectionDto {
   @ApiProperty()
   created_at: string;
 
-  @ApiProperty({ type: String, required: false })
+  @ApiPropertyOptional({ type: String })
   @IsOptional()
   expecting_reveal_time?: string;
 
@@ -144,66 +134,5 @@ export class CollectionDto {
 
 export class CollectionsDataDto extends BasePaginationDto {
   @ApiProperty({ type: [CollectionDto] })
-  nfts: NftDto[];
-}
-
-export class TraitDto {
-  @ApiProperty({ type: Number })
-  trait_id: number;
-
-  @ApiProperty()
-  name: string;
-
-  @ApiProperty()
-  value: string;
-
-  @ApiProperty({ type: Number })
-  pool: number;
-
-  @ApiProperty({ type: Number })
-  score: number;
-}
-
-export class NftDto {
-  @ApiProperty({ type: Number })
-  id: number;
-
-  @ApiProperty()
-  token_id: string;
-
-  @ApiProperty()
-  image: string;
-
-  @ApiProperty()
-  name: string;
-
-  @ApiProperty()
-  owner: string;
-
-  @ApiProperty()
-  contract_address: string;
-
-  @ApiProperty({ type: [TraitDto] })
-  traits: TraitDto[];
-
-  @ApiProperty({ type: Number })
-  rarity_score: number;
-
-  @ApiProperty({ type: Number })
-  rarity_rank: number;
-
-  @ApiProperty()
-  opensea_url: string;
-}
-
-export class MetadataDto extends BasePaginationDto {
-  @ApiProperty({ type: [NftDto] })
-  nfts: NftDto[];
-}
-
-export class ErrorDto {
-  @ApiProperty({ type: Number })
-  code: string;
-  @ApiProperty()
-  message: string;
+  collections: CollectionDto[];
 }
