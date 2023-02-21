@@ -72,4 +72,21 @@ export class CollectionsController {
     );
     return data;
   }
+
+  @ApiOperation({ summary: 'Get market price' })
+  @ApiParam({
+    name: 'contractAddress',
+    type: String,
+    example: '0xe3f92992bb4f0f0d173623a52b2922d65172601d',
+  })
+  @ApiOkResponse({
+    type: Number,
+    description: 'Returns the metadata data.',
+  })
+  @ApiBadRequestResponse({ type: ErrorDto })
+  @Get(':contractAddress/market-price')
+  async getMarketPrice(@Param('contractAddress') contractAddress: string) {
+    const data = await this.collectionsService.getMarketPrice(contractAddress);
+    return data;
+  }
 }

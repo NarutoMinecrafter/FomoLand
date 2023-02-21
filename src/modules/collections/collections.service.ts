@@ -47,4 +47,15 @@ export class CollectionsService {
     console.log(data);
     return data;
   }
+
+  async getMarketPrice(contractAddress: string) {
+    const data = await this.getCollection(contractAddress);
+    const { supply, num_current_listed, peak_floor } = data;
+
+    const circulation = num_current_listed * peak_floor;
+    const marketCap = circulation * peak_floor;
+    const marketPrice = marketCap / supply;
+
+    return marketPrice;
+  }
 }
