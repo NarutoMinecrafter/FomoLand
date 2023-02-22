@@ -8,6 +8,7 @@ import {
   CollectionsQueryDto,
   MetatataQueryDto,
   basePaginationQuery,
+  DerivedDataDto,
 } from './dto';
 
 @Injectable()
@@ -57,5 +58,16 @@ export class CollectionsService {
     const marketPrice = marketCap / supply;
 
     return marketPrice;
+  }
+
+  async getDerivedData(contractAddress: string): Promise<DerivedDataDto> {
+    const data = await this.getCollection(contractAddress);
+    const marketCap = data.supply * data.floor_price;
+    const volume24h = data.one_day_volume;
+    const circulatingSupply = data.total_revealed;
+    const totalSupply = data.supply;
+    const floor = data.floor_price;
+
+    return { marketCap, volume24h, circulatingSupply, totalSupply, floor };
   }
 }
