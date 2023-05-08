@@ -1,7 +1,18 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsBoolean, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsIn, IsOptional, IsString } from 'class-validator';
 import { ToBolean } from 'src/common/utils';
-import { BasePaginationQueryDto } from './dto/common';
+import { BasePaginationQueryDto } from './common';
+import { TopByEnum } from './enums';
+
+export class TopCollectionsQueryDto extends BasePaginationQueryDto {
+  @ApiPropertyOptional({
+    example: TopByEnum.PriceIncr,
+    enum: Object.values(TopByEnum),
+  })
+  @IsOptional()
+  @IsIn(Object.values(TopByEnum))
+  top_by?: TopByEnum
+}
 
 export class CollectionsQueryDto extends BasePaginationQueryDto {
   @ApiPropertyOptional({ example: 'asc' })

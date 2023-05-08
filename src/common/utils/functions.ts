@@ -52,3 +52,15 @@ export function getChainHex(chain: EvmChainEnum): EvmChainHexEnum {
 export function numberToHex(num: number): number {
   return Number(num.toString(16));
 }
+
+export function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+export function chunkArray<T>(arr: T[], chunkSize: number): T[][] {
+  const result = [];
+  for (let i = 0; i < arr.length; i += chunkSize) {
+    result.push(arr.slice(i, i + chunkSize));
+  }
+  return result;
+}

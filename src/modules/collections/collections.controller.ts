@@ -8,30 +8,30 @@ import {
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { CollectionsService } from './collections.service';
 import {
-  CollectionDto,
+  CollectionEntity,
   CollectionsDataDto,
-  CollectionsQueryDto,
   DerivedDataDto,
   MetadataDto,
   MetatataQueryDto,
+  TopCollectionsQueryDto,
+  basePaginationQuery,
 } from './dto';
 import { ErrorDto } from 'src/common/utils/dto';
 
 @ApiTags('Collections')
 @Controller('collections')
 export class CollectionsController {
-  constructor(private readonly collectionsService: CollectionsService) {}
+  constructor(private readonly collectionsService: CollectionsService) { }
 
-  @ApiOperation({ summary: 'Get collections data' })
+  @ApiOperation({ summary: 'Get top collections' })
   @ApiOkResponse({
     type: CollectionsDataDto,
     description: 'Returns the collections data.',
   })
   @ApiBadRequestResponse({ type: ErrorDto })
-  @Get()
-  async getCollectionsData(@Query() query: CollectionsQueryDto) {
-    const data = await this.collectionsService.getCollections(query);
-    return data;
+  @Get('top')
+  getTopCollectionsData(@Query() query: TopCollectionsQueryDto) {
+    return this.collectionsService.getTopCollections({ ...basePaginationQuery, ...query });
   }
 
   @ApiOperation({ summary: 'Get collection data' })
@@ -41,7 +41,7 @@ export class CollectionsController {
     example: '0xe3f92992bb4f0f0d173623a52b2922d65172601d',
   })
   @ApiOkResponse({
-    type: CollectionDto,
+    type: CollectionEntity,
     description: 'Returns the collection data.',
   })
   @ApiBadRequestResponse({ type: ErrorDto })
@@ -67,7 +67,7 @@ export class CollectionsController {
     @Param('contractAddress') contractAddress: string,
     @Query() query: MetatataQueryDto,
   ) {
-    const data = await this.collectionsService.getMetadata(
+    const data = await this.collectionsService.fetchMetadata(
       contractAddress,
       query,
     );
